@@ -1,0 +1,1005 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#102d26">
+<meta name="description" content="Explore the menu, order food, and share your experience at Blue Sky Hotel.">
+<title>Blue Sky Hotel | Digital Dining</title>
+
+<style>
+:root {
+  --green: #123c30;
+  --green2: #1d5945;
+  --gold: #eab75b;
+  --cream: #faf8f2;
+  --white: #ffffff;
+  --text: #24332d;
+  --muted: #758078;
+  --border: #e8e9e2;
+  --red: #bd4848;
+  --shadow: 0 8px 30px #14291b0d;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--text);
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+}
+button, input, textarea, select { font: inherit; }
+button { cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+.container { width: min(1100px, 92%); margin: auto; }
+header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #102d26f5;
+  color: white;
+  backdrop-filter: blur(12px);
+}
+.nav {
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+.brand { font-size: 21px; font-weight: 800; }
+.brand span { color: var(--gold); }
+nav { display: flex; gap: 17px; align-items: center; }
+nav a { font-size: 13px; color: #f2f5ef; }
+.nav-cart {
+  background: var(--gold);
+  color: #172b22;
+  border: 0;
+  border-radius: 30px;
+  padding: 9px 15px;
+  font-weight: bold;
+}
+.hero {
+  color: white;
+  background:
+    linear-gradient(90deg, #102d26ed, #102d26a8),
+    url("https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1800&q=85")
+    center/cover;
+  padding: 85px 0;
+}
+.hero-content { max-width: 670px; }
+.eyebrow {
+  color: var(--gold);
+  letter-spacing: 2px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+h1 { font-size: clamp(36px, 7vw, 65px); line-height: 1.12; margin: 14px 0; }
+.hero p { color: #e5eee8; max-width: 520px; }
+.btn {
+  border: 0;
+  border-radius: 10px;
+  padding: 12px 18px;
+  font-weight: bold;
+  display: inline-block;
+}
+.btn-gold { background: var(--gold); color: #172b22; }
+.btn-green { background: var(--green); color: white; }
+.btn-light { background: #eef1e9; color: var(--green); }
+.section { padding: 55px 0; }
+.section-title { margin-bottom: 25px; }
+.section-title h2 { font-size: 30px; margin: 0 0 5px; }
+.section-title p { color: var(--muted); margin: 0; }
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+.feature {
+  padding: 22px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+.feature-icon { font-size: 27px; }
+.feature h3 { margin: 9px 0 5px; }
+.feature p { margin: 0; color: var(--muted); font-size: 14px; }
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(270px, .8fr);
+  gap: 24px;
+  align-items: start;
+}
+.categories { display: flex; gap: 8px; flex-wrap: wrap; margin: 20px 0; }
+.categories button {
+  border: 1px solid var(--border);
+  border-radius: 25px;
+  padding: 9px 16px;
+  background: white;
+  color: var(--green);
+}
+.categories button.active {
+  background: var(--green);
+  color: white;
+}
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 15px;
+}
+.food {
+  overflow: hidden;
+  border-radius: 15px;
+  border: 1px solid var(--border);
+  background: white;
+  box-shadow: var(--shadow);
+}
+.food img { width: 100%; height: 145px; object-fit: cover; display: block; }
+.food-body { padding: 14px; }
+.food h3 { font-size: 17px; margin: 0 0 4px; }
+.food p { font-size: 13px; color: var(--muted); margin: 0 0 12px; }
+.food-bottom { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.price { color: var(--green); font-weight: 800; }
+.add-btn {
+  background: var(--green);
+  color: white;
+  border: 0;
+  border-radius: 9px;
+  padding: 9px 12px;
+}
+.panel {
+  background: white;
+  padding: 21px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  margin-bottom: 18px;
+  box-shadow: var(--shadow);
+}
+.panel h2, .panel h3 { margin-top: 0; }
+.cart-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  border-bottom: 1px solid var(--border);
+  padding: 12px 0;
+}
+.qty { display: flex; gap: 8px; align-items: center; }
+.qty button {
+  width: 27px;
+  height: 27px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: #f5f6f1;
+}
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px;
+  font-weight: 800;
+  margin: 17px 0;
+}
+.field { margin-bottom: 13px; }
+.field label { display: block; font-size: 13px; font-weight: bold; margin-bottom: 5px; }
+.field input, .field textarea, .field select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #dfe3da;
+  border-radius: 9px;
+  background: white;
+  color: var(--text);
+}
+.field textarea { min-height: 90px; resize: vertical; }
+.full { width: 100%; }
+.note { font-size: 12px; color: var(--muted); }
+.status {
+  display: inline-block;
+  border-radius: 20px;
+  padding: 4px 10px;
+  background: #fff1cc;
+  color: #79530d;
+  font-size: 12px;
+  font-weight: bold;
+}
+.video-box {
+  min-height: 230px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #173b30;
+  color: white;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 20px;
+}
+.video-box iframe { width: 100%; aspect-ratio: 16/9; border: 0; }
+.stars { display: flex; gap: 7px; margin: 10px 0; }
+.stars button {
+  border: 0;
+  background: transparent;
+  color: #d1d5cd;
+  font-size: 30px;
+  padding: 0;
+}
+.stars button.selected { color: #efa928; }
+.review-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 12px;
+}
+.review-stars { color: #d9991e; }
+.chat-box {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.chat-messages {
+  min-height: 150px;
+  max-height: 300px;
+  overflow: auto;
+  padding: 12px;
+  background: #f8f9f5;
+}
+.chat-message {
+  padding: 9px 12px;
+  border-radius: 12px;
+  background: white;
+  border: 1px solid var(--border);
+  margin-bottom: 8px;
+  max-width: 90%;
+  overflow-wrap: anywhere;
+}
+.chat-message.customer { margin-left: auto; background: #e2f1e7; }
+.chat-form { display: flex; gap: 8px; padding: 10px; }
+.chat-form input {
+  flex: 1;
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+}
+.admin-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin: 15px 0; }
+.admin-tabs button {
+  padding: 9px 12px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: white;
+}
+.admin-tabs button.active { background: var(--green); color: white; }
+.order-card {
+  padding: 15px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin: 12px 0;
+  overflow-wrap: anywhere;
+}
+.order-card h3 { margin: 0 0 5px; }
+.order-card select { padding: 8px; border-radius: 7px; border: 1px solid var(--border); }
+.empty { color: var(--muted); padding: 15px 0; }
+.alert {
+  display: none;
+  position: fixed;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--green);
+  color: white;
+  padding: 13px 20px;
+  border-radius: 12px;
+  z-index: 30;
+  max-width: 90%;
+  box-shadow: var(--shadow);
+}
+footer { background: #102d26; color: white; padding: 38px 0; }
+.footer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+footer p, footer a { color: #d2dfd6; font-size: 14px; }
+footer h3 { color: var(--gold); }
+.small { font-size: 12px; color: var(--muted); }
+.hidden { display: none !important; }
+@media(max-width: 760px) {
+  nav { gap: 9px; }
+  nav a { font-size: 11px; }
+  .brand { font-size: 17px; }
+  .layout { grid-template-columns: 1fr; }
+  .feature-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+}
+@media(max-width: 420px) {
+  nav a { display: none; }
+  .menu-grid { grid-template-columns: 1fr; }
+  .hero { padding: 65px 0; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="container nav">
+    <a class="brand" href="#home">Blue Sky <span>Hotel</span></a>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#menu">Menu</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="nav-cart" onclick="goToCart()">🛒 Cart <span id="cartCount">0</span></button>
+  </div>
+</header>
+
+<main>
+<section class="hero" id="home">
+  <div class="container hero-content">
+    <div class="eyebrow">Welcome to Blue Sky Hotel</div>
+    <h1>Good Food.<br>Beautiful Moments.</h1>
+    <p>Discover our menu, order your favorite meals, and enjoy warm hospitality.</p>
+    <a class="btn btn-gold" href="#menu">Explore Our Menu →</a>
+    <a class="btn btn-light" href="#contact">Contact Us</a>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="feature-grid">
+      <div class="feature">
+        <div class="feature-icon">🍽️</div>
+        <h3>Freshly Prepared</h3>
+        <p>Enjoy delicious meals prepared with care.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">📱</div>
+        <h3>Easy Digital Ordering</h3>
+        <p>Browse the menu and add your choices to your cart.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">⭐</div>
+        <h3>Your Feedback Matters</h3>
+        <p>Rate your experience and share suggestions with us.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="menu">
+  <div class="container">
+    <div class="section-title">
+      <h2>Explore Our Menu</h2>
+      <p>Choose your favorites and add them to your cart.</p>
+    </div>
+
+    <div class="layout">
+      <div>
+        <div class="categories" id="categories">
+          <button class="active" onclick="filterMenu('All',this)">All</button>
+          <button onclick="filterMenu('Breakfast',this)">Breakfast</button>
+          <button onclick="filterMenu('Food',this)">Food</button>
+          <button onclick="filterMenu('Drinks',this)">Drinks</button>
+        </div>
+        <div class="menu-grid" id="menuGrid"></div>
+      </div>
+
+      <div id="cartSection">
+        <div class="panel">
+          <h2>🛒 Your Cart</h2>
+          <div id="cartItems"><p class="empty">Your cart is empty.</p></div>
+          <div class="total-row">
+            <span>Total</span><span id="cartTotal">0 ETB</span>
+          </div>
+          <p class="note">Prices are displayed in Ethiopian Birr (ETB).</p>
+          <button class="btn btn-green full" onclick="goToCheckout()">Continue to Order</button>
+        </div>
+
+        <div class="panel" id="checkout">
+          <h2>📝 Place Your Order</h2>
+          <form id="orderForm">
+            <div class="field">
+              <label for="customerName">Your Name *</label>
+              <input id="customerName" required maxlength="80" placeholder="Enter your name">
+            </div>
+            <div class="field">
+              <label for="customerPhone">Phone Number *</label>
+              <input id="customerPhone" required type="tel" maxlength="25" placeholder="Your phone number">
+            </div>
+            <div class="field">
+              <label for="tableNumber">Room / Table Number *</label>
+              <input id="tableNumber" required maxlength="30" placeholder="e.g. Table 4">
+            </div>
+            <div class="field">
+              <label for="orderNote">Special Instructions</label>
+              <textarea id="orderNote" maxlength="500" placeholder="Optional instructions"></textarea>
+            </div>
+            <button class="btn btn-gold full" type="submit">Confirm Order</button>
+            <p class="note">Demo mode: orders are saved in this browser only until a shared backend is connected.</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="promotions">
+  <div class="container">
+    <div class="section-title">
+      <h2>Discover Blue Sky</h2>
+      <p>Promotional video and hotel highlights.</p>
+    </div>
+    <div class="video-box" id="videoBox">
+      <div>
+        <div style="font-size:48px">▶️</div>
+        <h3>Blue Sky Hotel Promotional Video</h3>
+        <p>Add your official YouTube video link here when ready.</p>
+      </div>
+    </div>
+    <p class="small">To display a video, replace this video area with your own official promotional video embed.</p>
+  </div>
+</section>
+
+<section class="section" id="reviews">
+  <div class="container">
+    <div class="section-title">
+      <h2>Customer Reviews & Ratings</h2>
+      <p>Share your experience to help us improve.</p>
+    </div>
+    <div class="layout">
+      <div>
+        <div class="panel">
+          <h3>⭐ Guest Experiences</h3>
+          <div id="reviewList"><p class="empty">No reviews yet. Be the first to review!</p></div>
+        </div>
+      </div>
+      <div class="panel">
+        <h3>Leave a Review</h3>
+        <form id="reviewForm">
+          <div class="field">
+            <label for="reviewName">Your Name *</label>
+            <input id="reviewName" required maxlength="80" placeholder="Your name">
+          </div>
+          <div class="field">
+            <label>Your Rating *</label>
+            <div class="stars" id="starPicker" aria-label="Select rating">
+              <button type="button" data-rating="1" aria-label="1 star">★</button>
+              <button type="button" data-rating="2" aria-label="2 stars">★</button>
+              <button type="button" data-rating="3" aria-label="3 stars">★</button>
+              <button type="button" data-rating="4" aria-label="4 stars">★</button>
+              <button type="button" data-rating="5" aria-label="5 stars">★</button>
+            </div>
+            <p class="note" id="ratingText">Choose from 1 to 5 stars.</p>
+          </div>
+          <div class="field">
+            <label for="reviewText">Your Review *</label>
+            <textarea id="reviewText" required maxlength="1000" placeholder="Tell us about your experience"></textarea>
+          </div>
+          <button class="btn btn-green full" type="submit">Submit Review</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="feedback">
+  <div class="container">
+    <div class="section-title">
+      <h2>💬 Customer Feedback & Chat</h2>
+      <p>Send a message or question to the hotel team.</p>
+    </div>
+    <div class="layout">
+      <div class="panel">
+        <h3>Message the Hotel</h3>
+        <div class="chat-box">
+          <div class="chat-messages" id="chatMessages">
+            <div class="chat-message">Welcome! Send us your question or feedback.</div>
+          </div>
+          <form class="chat-form" id="chatForm">
+            <input id="chatInput" maxlength="1000" required placeholder="Write a message...">
+            <button class="btn btn-green" type="submit">Send</button>
+          </form>
+        </div>
+        <p class="note">Demo mode: messages are stored in this browser, not delivered to staff on another device yet.</p>
+      </div>
+      <div class="panel">
+        <h3>🔔 Need Assistance?</h3>
+        <p>Ask for help or request service from your table or room.</p>
+        <form id="helpForm">
+          <div class="field">
+            <label for="helpLocation">Room / Table Number *</label>
+            <input id="helpLocation" required maxlength="30" placeholder="e.g. Room 12">
+          </div>
+          <div class="field">
+            <label for="helpType">Type of Assistance *</label>
+            <select id="helpType" required>
+              <option value="Call waiter">Call waiter</option>
+              <option value="Request bill">Request bill</option>
+              <option value="Room service">Room service</option>
+              <option value="Other assistance">Other assistance</option>
+            </select>
+          </div>
+          <button class="btn btn-gold full" type="submit">Request Assistance</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="reception" style="background:#f0f2eb">
+  <div class="container">
+    <div class="section-title">
+      <h2>🏨 Reception Dashboard</h2>
+      <p>View demo orders, customer reviews, feedback, and service requests.</p>
+    </div>
+    <div class="panel">
+      <p class="note">Demo dashboard only. This page is not protected by staff login yet. Do not use it for real customer data until Supabase and staff authentication are configured.</p>
+      <div class="admin-tabs">
+        <button class="active" onclick="showAdmin('orders',this)">📋 Orders <span id="orderBadge">0</span></button>
+        <button onclick="showAdmin('reviews',this)">⭐ Reviews</button>
+        <button onclick="showAdmin('messages',this)">💬 Messages</button>
+        <button onclick="showAdmin('requests',this)">🔔 Requests</button>
+      </div>
+      <div id="adminContent"><p class="empty">No orders received yet.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="contact">
+  <div class="container">
+    <div class="section-title">
+      <h2>Contact Blue Sky Hotel</h2>
+      <p>We look forward to welcoming you.</p>
+    </div>
+    <div class="feature-grid">
+      <div class="feature">
+        <div class="feature-icon">📍</div>
+        <h3>Address</h3>
+        <p id="hotelAddress">Add your hotel's real address here.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">✉️</div>
+        <h3>Email</h3>
+        <p id="hotelEmail">Add your hotel's official email here.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">📞</div>
+        <h3>Phone</h3>
+        <p id="hotelPhone">Add your hotel's official phone number here.</p>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="container footer-grid">
+    <div>
+      <h3>Blue Sky Hotel</h3>
+      <p>Great food, warm hospitality, and memorable moments.</p>
+    </div>
+    <div>
+      <h3>Quick Links</h3>
+      <p><a href="#menu">Our Menu</a></p>
+      <p><a href="#reviews">Customer Reviews</a></p>
+      <p><a href="#feedback">Feedback & Chat</a></p>
+    </div>
+    <div>
+      <h3>Contact</h3>
+      <p id="footerContact">Please add your official contact information.</p>
+      <p>© <span id="year"></span> Blue Sky Hotel</p>
+    </div>
+  </div>
+</footer>
+
+<div class="alert" id="alertBox" role="status"></div>
+
+<script>
+"use strict";
+
+/* EDIT THESE MENU ITEMS AND PRICES TO MATCH YOUR HOTEL */
+const items = [
+  {id:1,name:"Special Breakfast",category:"Breakfast",description:"Egg, bread and tea",price:180,image:"https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?auto=format&fit=crop&w=700&q=80"},
+  {id:2,name:"Pancakes",category:"Breakfast",description:"Fresh pancakes for a lovely morning",price:200,image:"https://images.unsplash.com/photo-1528207776546-365bb710ee93?auto=format&fit=crop&w=700&q=80"},
+  {id:3,name:"Chicken Sandwich",category:"Food",description:"Fresh sandwich with chicken",price:250,image:"https://images.unsplash.com/photo-1606755962773-d324e0a13086?auto=format&fit=crop&w=700&q=80"},
+  {id:4,name:"Cheese Pizza",category:"Food",description:"Cheese and vegetable pizza",price:450,image:"https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=700&q=80"},
+  {id:5,name:"Burger",category:"Food",description:"Classic burger with fresh ingredients",price:350,image:"https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=700&q=80"},
+  {id:6,name:"Fresh Juice",category:"Drinks",description:"Fresh seasonal fruit juice",price:100,image:"https://images.unsplash.com/photo-1613478223719-2ab802602423?auto=format&fit=crop&w=700&q=80"},
+  {id:7,name:"Ethiopian Coffee",category:"Drinks",description:"Freshly prepared Ethiopian coffee",price:50,image:"https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=700&q=80"},
+  {id:8,name:"Mineral Water",category:"Drinks",description:"Chilled bottled water",price:40,image:"https://images.unsplash.com/photo-1559839914-17aae19cec71?auto=format&fit=crop&w=700&q=80"}
+];
+
+const $ = id => document.getElementById(id);
+const money = n => Number(n).toLocaleString("en-US") + " ETB";
+const safe = value => String(value ?? "").replace(/[&<>"']/g, c => ({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+})[c]);
+
+/* Local demo storage: available only in this browser/device */
+function load(key) {
+  try {
+    const result = JSON.parse(localStorage.getItem("blueSky_" + key) || "[]");
+    return Array.isArray(result) ? result : [];
+  } catch (e) { return []; }
+}
+function save(key, data) {
+  try {
+    localStorage.setItem("blueSky_" + key, JSON.stringify(data));
+    return true;
+  } catch (e) {
+    alert("Browser storage is unavailable. Please check your browser settings.");
+    return false;
+  }
+}
+
+let cart = [];
+let selectedRating = 0;
+let activeCategory = "All";
+let adminTab = "orders";
+
+let orders = load("orders");
+let reviews = load("reviews");
+let messages = load("messages");
+let requests = load("requests");
+
+function notify(message) {
+  const box = $("alertBox");
+  box.textContent = message;
+  box.style.display = "block";
+  clearTimeout(notify.timer);
+  notify.timer = setTimeout(() => box.style.display = "none", 3500);
+}
+
+function renderMenu(category = "All") {
+  activeCategory = category;
+  const filtered = category === "All" ? items :
+    items.filter(item => item.category === category);
+
+  $("menuGrid").innerHTML = filtered.map(item => `
+    <article class="food">
+      <img src="${safe(item.image)}" alt="${safe(item.name)}"
+        loading="lazy" onerror="this.style.display='none'">
+      <div class="food-body">
+        <h3>${safe(item.name)}</h3>
+        <p>${safe(item.description)}</p>
+        <div class="food-bottom">
+          <span class="price">${money(item.price)}</span>
+          <button class="add-btn" onclick="addToCart(${item.id})">+ Add</button>
+        </div>
+      </div>
+    </article>
+  `).join("");
+}
+
+function filterMenu(category, button) {
+  document.querySelectorAll("#categories button").forEach(b => b.classList.remove("active"));
+  button.classList.add("active");
+  renderMenu(category);
+}
+
+function addToCart(id) {
+  const item = items.find(x => x.id === id);
+  if (!item) return;
+  const existing = cart.find(x => x.id === id);
+  if (existing) existing.quantity++;
+  else cart.push({...item, quantity:1});
+  renderCart();
+  notify(item.name + " added to cart!");
+}
+
+function changeQuantity(id, amount) {
+  const entry = cart.find(x => x.id === id);
+  if (!entry) return;
+  entry.quantity += amount;
+  cart = cart.filter(x => x.quantity > 0);
+  renderCart();
+}
+
+function cartTotal() {
+  return cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+}
+
+function renderCart() {
+  $("cartCount").textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+  $("cartTotal").textContent = money(cartTotal());
+
+  if (!cart.length) {
+    $("cartItems").innerHTML = '<p class="empty">Your cart is empty.</p>';
+    return;
+  }
+
+  $("cartItems").innerHTML = cart.map(item => `
+    <div class="cart-row">
+      <div>
+        <strong>${safe(item.name)}</strong>
+        <div class="small">${money(item.price)} each</div>
+      </div>
+      <div class="qty">
+        <button onclick="changeQuantity(${item.id},-1)" aria-label="Decrease quantity">−</button>
+        <span>${item.quantity}</span>
+        <button onclick="changeQuantity(${item.id},1)" aria-label="Increase quantity">+</button>
+      </div>
+    </div>
+  `).join("");
+}
+
+function goToCart() {
+  $("cartSection").scrollIntoView({behavior:"smooth"});
+}
+function goToCheckout() {
+  if (!cart.length) {
+    notify("Please add food to your cart first.");
+    return;
+  }
+  $("checkout").scrollIntoView({behavior:"smooth"});
+}
+
+/* CUSTOMER ORDERS */
+$("orderForm").addEventListener("submit", event => {
+  event.preventDefault();
+
+  if (!cart.length) {
+    notify("Your cart is empty. Add food first.");
+    return;
+  }
+
+  const order = {
+    id: "BS-" + Date.now().toString().slice(-8),
+    name: $("customerName").value.trim(),
+    phone: $("customerPhone").value.trim(),
+    location: $("tableNumber").value.trim(),
+    note: $("orderNote").value.trim(),
+    items: cart.map(x => ({name:x.name, price:x.price, quantity:x.quantity})),
+    total: cartTotal(),
+    status: "Received",
+    createdAt: new Date().toLocaleString()
+  };
+
+  if (!order.name || !order.phone || !order.location) {
+    notify("Please complete all required fields.");
+    return;
+  }
+
+  orders.unshift(order);
+  if (!save("orders", orders)) {
+    orders.shift();
+    return;
+  }
+
+  cart = [];
+  renderCart();
+  renderAdmin();
+  $("orderForm").reset();
+
+  notify("Order received in this browser! Order ID: " + order.id);
+  $("reception").scrollIntoView({behavior:"smooth"});
+});
+
+/* CUSTOMER REVIEWS */
+$("starPicker").addEventListener("click", event => {
+  const button = event.target.closest("button[data-rating]");
+  if (!button) return;
+
+  selectedRating = Number(button.dataset.rating);
+  $("starPicker").querySelectorAll("button").forEach(star => {
+    star.classList.toggle("selected", Number(star.dataset.rating) <= selectedRating);
+  });
+  $("ratingText").textContent = selectedRating + " out of 5 stars selected.";
+});
+
+$("reviewForm").addEventListener("submit", event => {
+  event.preventDefault();
+
+  if (selectedRating < 1 || selectedRating > 5) {
+    notify("Please choose a star rating first.");
+    return;
+  }
+
+  reviews.unshift({
+    name:$("reviewName").value.trim(),
+    rating:selectedRating,
+    text:$("reviewText").value.trim(),
+    date:new Date().toLocaleDateString()
+  });
+
+  if (!save("reviews", reviews)) {
+    reviews.shift();
+    return;
+  }
+
+  $("reviewForm").reset();
+  selectedRating = 0;
+  $("starPicker").querySelectorAll("button").forEach(b => b.classList.remove("selected"));
+  $("ratingText").textContent = "Choose from 1 to 5 stars.";
+  renderReviews();
+  renderAdmin();
+  notify("Thank you! Your review was saved in this browser.");
+});
+
+function renderReviews() {
+  if (!reviews.length) {
+    $("reviewList").innerHTML = '<p class="empty">No reviews yet. Be the first to review!</p>';
+    return;
+  }
+
+  $("reviewList").innerHTML = reviews.map(review => `
+    <div class="review-card">
+      <strong>${safe(review.name)}</strong>
+      <span class="review-stars">${"★".repeat(review.rating)}${"☆".repeat(5-review.rating)}</span>
+      <p>${safe(review.text)}</p>
+      <div class="small">${safe(review.date)}</div>
+    </div>
+  `).join("");
+}
+
+/* CUSTOMER FEEDBACK CHAT */
+$("chatForm").addEventListener("submit", event => {
+  event.preventDefault();
+  const input = $("chatInput");
+  const text = input.value.trim();
+  if (!text) return;
+
+  messages.unshift({
+    id:"MSG-" + Date.now(),
+    sender:"Customer",
+    text,
+    date:new Date().toLocaleString(),
+    status:"New"
+  });
+
+  if (!save("messages", messages)) {
+    messages.shift();
+    return;
+  }
+
+  input.value = "";
+  renderChat();
+  renderAdmin();
+  notify("Message saved in this browser.");
+});
+
+function renderChat() {
+  const list = $("chatMessages");
+  if (!messages.length) {
+    list.innerHTML = '<div class="chat-message">Welcome! Send us your question or feedback.</div>';
+    return;
+  }
+
+  list.innerHTML = [...messages].reverse().map(message => `
+    <div class="chat-message customer">
+      <strong>${safe(message.sender)}</strong><br>
+      ${safe(message.text)}
+      <div class="small">${safe(message.date)}</div>
+    </div>
+  `).join("");
+  list.scrollTop = list.scrollHeight;
+}
+
+/* REQUEST WAITER OR OTHER ASSISTANCE */
+$("helpForm").addEventListener("submit", event => {
+  event.preventDefault();
+
+  requests.unshift({
+    id:"REQ-" + Date.now().toString().slice(-7),
+    location:$("helpLocation").value.trim(),
+    type:$("helpType").value,
+    status:"Received",
+    date:new Date().toLocaleString()
+  });
+
+  if (!save("requests", requests)) {
+    requests.shift();
+    return;
+  }
+
+  $("helpForm").reset();
+  renderAdmin();
+  notify("Your request was recorded in this browser.");
+});
+
+/* RECEPTION DASHBOARD */
+function showAdmin(tab, button) {
+  adminTab = tab;
+  document.querySelectorAll(".admin-tabs button").forEach(b => b.classList.remove("active"));
+  button.classList.add("active");
+  renderAdmin();
+}
+
+function renderAdmin() {
+  $("orderBadge").textContent = orders.filter(o => o.status === "Received").length;
+
+  if (adminTab === "orders") {
+    $("adminContent").innerHTML = orders.length ? orders.map(order => `
+      <div class="order-card">
+        <h3>Order ${safe(order.id)}</h3>
+        <p><strong>Customer:</strong> ${safe(order.name)}</p>
+        <p><strong>Phone:</strong> ${safe(order.phone)}</p>
+        <p><strong>Room/Table:</strong> ${safe(order.location)}</p>
+        <p><strong>Items:</strong> ${order.items.map(i => safe(i.name) + " × " + i.quantity).join(", ")}</p>
+        <p><strong>Total:</strong> ${money(order.total)}</p>
+        <p><strong>Notes:</strong> ${safe(order.note || "None")}</p>
+        <p><strong>Time:</strong> ${safe(order.createdAt)}</p>
+        <p><span class="status">${safe(order.status)}</span></p>
+        <label>Update order status:
+          <select onchange="updateOrder('${safe(order.id)}',this.value)">
+            ${["Received","Preparing","Ready","Delivered","Cancelled"].map(s =>
+              `<option value="${s}" ${order.status===s?"selected":""}>${s}</option>`
+            ).join("")}
+          </select>
+        </label>
+      </div>
+    `).join("") : '<p class="empty">No orders received yet.</p>';
+  }
+
+  if (adminTab === "reviews") {
+    $("adminContent").innerHTML = reviews.length ? reviews.map(r => `
+      <div class="order-card">
+        <strong>${safe(r.name)}</strong>
+        <span class="review-stars">${"★".repeat(r.rating)}</span>
+        <p>${safe(r.text)}</p>
+        <p class="small">${safe(r.date)}</p>
+      </div>
+    `).join("") : '<p class="empty">No customer reviews yet.</p>';
+  }
+
+  if (adminTab === "messages") {
+    $("adminContent").innerHTML = messages.length ? messages.map(m => `
+      <div class="order-card">
+        <strong>${safe(m.sender)} · ${safe(m.id)}</strong>
+        <p>${safe(m.text)}</p>
+        <p class="small">${safe(m.date)} · ${safe(m.status)}</p>
+        <button class="btn btn-light" onclick="markMessage('${safe(m.id)}')">Mark as reviewed</button>
+      </div>
+    `).join("") : '<p class="empty">No messages yet.</p>';
+  }
+
+  if (adminTab === "requests") {
+    $("adminContent").innerHTML = requests.length ? requests.map(r => `
+      <div class="order-card">
+        <strong>${safe(r.type)}</strong>
+        <p>Room/Table: ${safe(r.location)}</p>
+        <p class="small">${safe(r.date)} · ${safe(r.status)}</p>
+        <button class="btn btn-light" onclick="completeRequest('${safe(r.id)}')">Mark completed</button>
+      </div>
+    `).join("") : '<p class="empty">No assistance requests yet.</p>';
+  }
+}
+
+function updateOrder(id, status) {
+  const order = orders.find(o => o.id === id);
+  if (!order) return;
+  order.status = status;
+  if (!save("orders", orders)) return;
+  renderAdmin();
+  notify("Order status updated to " + status + ".");
+}
+
+function markMessage(id) {
+  const message = messages.find(m => m.id === id);
+  if (!message) return;
+  message.status = "Reviewed";
+  if (!save("messages", messages)) return;
+  renderAdmin();
+  notify("Message marked as reviewed.");
+}
+
+function completeRequest(id) {
+  const request = requests.find(r => r.id === id);
+  if (!request) return;
+  request.status = "Completed";
+  if (!save("requests", requests)) return;
+  renderAdmin();
+  notify("Request marked as completed.");
+}
+
+/* HOTEL CONTACT DETAILS: REPLACE WITH REAL DETAILS */
+$("year").textContent = new Date().getFullYear();
+
+/* INITIAL PAGE RENDER */
+renderMenu();
+renderCart();
+renderReviews();
+renderChat();
+renderAdmin();
+</script>
+
+</body>
+</html>
