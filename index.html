@@ -1001,69 +1001,64 @@ renderAdmin();
 
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<div id="supabase-status" style="padding:12px;margin:12px;background:#eee;color:#222;">
-  Connecting to Blue Sky Hotel Database...
+<!-- Supabase status: keep only one copy -->
+<div id="supabase-status"
+     role="status"
+     aria-live="polite"
+     style="padding:12px;margin:12px;border-radius:8px;
+            background:#eee;color:#222;">
+  Connecting to Blue Sky Hotel database...
 </div>
 
-
+<!-- Load Supabase only once -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<div id="supabase-status" style="padding:12px;margin:12px;background:#eee;color:#222;">
-  Connecting to Blue Sky Hotel Database...
-</div>
-
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<div id="supabase-status" style="padding:12px;margin:12px;background:#eee;color:#222;">
-  Connecting to Blue Sky Hotel Database...
-</div>
-
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<div id="supabase-status" style="padding:12px;margin:12px;background:#eee;color:#222;">
-  Connecting to Blue Sky Hotel Database...
-</div>
-
 
 <script>
-src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+"use strict";
 
-<div id="supabase-status" style="padding:12px;margin:12px;background:#eee;color:#222;">
-  Connecting to Blue Sky Hotel Database...
-</div>
-
-<script
 const BLUE_SKY_SUPABASE_URL =
-  'https://ckrpqefrcnoegyxljdip.supabase.co';
+  "https://ckrpqefrcnoegyxljdip.supabase.co";
 
 const BLUE_SKY_SUPABASE_KEY =
-  'YOUR_SUPABASE_PUBLISHABLE_KEY';
+  "sb_publishable_hs3iuB0SsjCJ-Q8sweyeEw_-Qhr96DS";
 
-const blueSkySupabase = window.supabase.createClient(
-  BLUE_SKY_SUPABASE_URL,https://ckrpqefrcnoegyxljdip.supabase.co/rest/v1/
-  BLUE_SKY_SUPABASE_KEYsb_publishable_hs3iuB0SsjCJ-Q8sweyeEw_-Qhr96DS
-);
+const statusBox = document.getElementById("supabase-status");
 
 async function testBlueSkyConnection() {
-  const status = document.getElementById('supabase-status');
+  statusBox.textContent = "Connecting to database...";
 
   try {
-    const { data, error } = await blueSkySupabase
-      .from('menu_items')
-      .select('id, name, price')
+    if (!window.supabase) {
+      throw new Error("Supabase library failed to load.");
+    }
+
+    const client = window.supabase.createClient(
+      BLUE_SKY_SUPABASE_URL,https://ckrpqefrcnoegyxljdip.supabase.co/rest/v1/
+      BLUE_SKY_SUPABASE_KEYsb_publishable_hs3iuB0SsjCJ-Q8sweyeEw_-Qhr96DS
+    );
+
+    const { data, error } = await client
+      .from("menu_items")
+      .select("id, name, price")
       .limit(1);
 
     if (error) throw error;
 
-    status.textContent =
-      'Connected successfully! Menu items found: ' + data.length;
+    statusBox.textContent =
+      "Connected successfully! Menu items found: " +
+      data.length;
+
+    statusBox.style.background = "#d9f4df";
+    statusBox.style.color = "#155724";
+
   } catch (error) {
-    status.textContent =
-      'Connection error: ' + error.message;
+    console.error("Supabase connection error:", error);
+
+    statusBox.textContent =
+      "Connection failed: " + error.message;
+
+    statusBox.style.background = "#fde2e2";
+    statusBox.style.color = "#8b1e1e";
   }
 }
 
@@ -1072,6 +1067,7 @@ testBlueSkyConnection();
 
 </body>
 </html>
+
 
 
 
