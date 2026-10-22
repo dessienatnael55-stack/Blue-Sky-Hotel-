@@ -998,7 +998,16 @@ renderCart();
 renderReviews();
 renderChat();
 renderAdmin();
+
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<div id="supabase-status" style="padding:12px;margin:12px;background:#eee;color:#222;">
+  Connecting to Blue Sky Hotel Database...
+</div>
+
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <div id="supabase-status" style="padding:12px;margin:12px;background:#eee;color:#222;">
@@ -1011,13 +1020,28 @@ renderAdmin();
 <div id="supabase-status" style="padding:12px;margin:12px;background:#eee;color:#222;">
   Connecting to Blue Sky Hotel Database...
 </div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<div id="supabase-status" style="padding:12px;margin:12px;background:#eee;color:#222;">
+  Connecting to Blue Sky Hotel Database...
+</div>
+
 
 <script>
+src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<div id="supabase-status" style="padding:12px;margin:12px;background:#eee;color:#222;">
+  Connecting to Blue Sky Hotel Database...
+</div>
+
+<script
 const BLUE_SKY_SUPABASE_URL =
   'https://ckrpqefrcnoegyxljdip.supabase.co';
 
 const BLUE_SKY_SUPABASE_KEY =
-  'PASTE_YOUR_PUBLISHABLE_KEY_HERE';
+  'YOUR_SUPABASE_PUBLISHABLE_KEY';
 
 const blueSkySupabase = window.supabase.createClient(
   BLUE_SKY_SUPABASE_URL,https://ckrpqefrcnoegyxljdip.supabase.co/rest/v1/
@@ -1036,16 +1060,20 @@ async function testBlueSkyConnection() {
     if (error) throw error;
 
     status.textContent =
-      'Connected! Database is working. Menu items found: ' + data.length;
+      'Connected successfully! Menu items found: ' + data.length;
   } catch (error) {
-    status.textContent = 'Connection error: ' + error.message;
+    status.textContent =
+      'Connection error: ' + error.message;
   }
 }
 
 testBlueSkyConnection();
 </script>
-</body>
-</html>
 
 </body>
 </html>
+
+
+
+
+
